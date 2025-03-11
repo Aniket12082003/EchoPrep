@@ -1,101 +1,82 @@
-import Image from "next/image";
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Slide, ToastContainer, Zoom, toast } from 'react-toastify';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [interviewType, setInterviewType] = useState<string>('');
+  const [checkBox, setCheckBox] = useState<boolean>(false);
+  const router = useRouter();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+  }, []);
+
+  const handleGoToInterview = () => {
+    if (interviewType && checkBox) {
+      router.push(`/interview?type=${interviewType}`);
+    } else if (!checkBox) {
+      toast.error("Please agree to the terms and conditions.", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Slide,
+      })
+    }
+    else{
+      toast.error("Please enter an interview type.", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Slide,
+      })  
+    }
+    return true
+  };
+
+  return (
+    <div className="flex flex-col gap-4 items-center justify-center h-screen">
+      <h1 className="text-3xl font-bold">Interview Prep</h1>
+      <div className='flex gap-1 items-center mb-10'>
+        <input
+          type="text"
+          placeholder="Enter interview type (e.g., Software Engineer)"
+          className="border p-2 w-[400px] rounded"
+          value={interviewType}
+          onChange={(e) => setInterviewType(e.target.value)}
+          />
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-extrabold py-2 px-4 rounded hover:cursor-pointer" onClick={handleGoToInterview}>→
+        </button>
+      </div>
+      <div className='flex flex-col gap-4 items-start w-[100%] max-w-[1000px] border rounded-4xl p-4'>
+        <h1 className='text-2xl font-bold z-10 px-1 mx-5 bg-[#0a0a0a] -mt-8'>Rules</h1>
+        <div>
+          <ul className='list-decimal list-inside flex flex-col gap-2'>
+            <li>The dummy interview will help you hone your confidence, speaking and critical thinking skills.</li>
+            <li>Questions will be asked by AI. Pardon any misgeneration.</li>
+            <li>Answer the questions as if you are in an interview.</li>
+            <li>Respond only when the mic is turned on. Click on the mic again to submit the answer.</li>
+            <li>The AI will provide feedback on your answer. You can urge to ask from topics for follow-up questions.</li>
+            <li>Review your feedback on the feedback page.</li>
+          </ul>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <div className='flex gap-2 mx-auto'>
+        <input type="checkbox" name="checkbox" id="" onClick={() => setCheckBox(!checkBox)} />
+        <label htmlFor="checkbox">I have read and accept the rules.</label>
+        </div>
+      </div>
+      <ToastContainer position='top-right' theme='dark' autoClose={5000} transition={Slide} />
     </div>
   );
 }
